@@ -1,12 +1,12 @@
 package com.SpringBootWithAngular.employeemanager.service;
 
+import com.SpringBootWithAngular.employeemanager.exception.UserNotFoundException;
 import com.SpringBootWithAngular.employeemanager.model.Employee;
 import com.SpringBootWithAngular.employeemanager.repo.EmployeeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -31,8 +31,8 @@ public class EmployeeService {
         return employeeRepo.save(employee);
     }
 
-    public Optional<Employee> findEmployeeById(Long id){
-        return employeeRepo.findById(id);
+    public Employee findEmployeeById(Long id){
+        return employeeRepo.findById(id).orElseThrow(() -> new UserNotFoundException("User by id " + id + " was not found"));
     }
 
     public void deleteEmployee(Long id){
